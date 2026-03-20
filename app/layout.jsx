@@ -6,14 +6,14 @@ import "./globals.css";
 const outfit = Outfit({ subsets: ["latin"], weight: ["400", "500", "600"] });
 
 export const metadata = {
-    title: "GoCart. - Shop smarter",
+    title: "Arte en Joyas - Ruben Badia",
     description: "GoCart. - Shop smarter",
 };
 
 export default function RootLayout({ children }) {
     return (
         <html lang="en">
-            <body className={`${outfit.className} antialiased`}>
+            <body className={`${outfit.className} antialiased`} style={{ backgroundColor: '#346c6b'}}>
                 <StoreProvider>
                     <Toaster />
                     {children}
