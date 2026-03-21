@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { assets } from '@/assets/assets';
 import Image from 'next/image';
 import { useSyncProductsFromLocalStorage } from "@/lib/hooks/useSyncProductsFromLocalStorage";
+import FloatingCart from "./FloatingCart";
 
 
 const Navbar = () => {
@@ -23,6 +24,7 @@ const Navbar = () => {
     const [selectedIndex, setSelectedIndex] = useState(-1)
     const [isScrolled, setIsScrolled] = useState(false)
     const [expandSearch, setExpandSearch] = useState(false)
+    const [isCartOpen, setIsCartOpen] = useState(false)
     const searchInputRef = useRef(null)
     const cartCount = useSelector(state => state.cart.total)
 
@@ -100,7 +102,8 @@ const Navbar = () => {
     const currency = process.env.NEXT_PUBLIC_CURRENCY_SYMBOL || '$'
 
     return (
-        <nav className={`sticky top-0 z-50 transition-all duration-500 ${isScrolled ? 'shadow-lg' : 'shadow-md'}`} style={{ backgroundColor: '#346c6b' }}>
+        <>
+            <nav className={`sticky top-0 z-50 transition-all duration-500 ${isScrolled ? 'shadow-lg' : 'shadow-md'}`} style={{ backgroundColor: '#346c6b' }}>
             <div className={`mx-6 transition-all duration-500 ${isScrolled ? 'py-2' : 'py-4'}`}>
                 <div className="flex items-center justify-between max-w-7xl mx-auto transition-all duration-500">
 
@@ -251,11 +254,14 @@ const Navbar = () => {
                             </div>
                         )}
 
-                        <Link href="/cart" className="relative flex items-center gap-2 text-[#e1edfa] hover:opacity-80 transition-all duration-500">
+                        <button
+                            onClick={() => setIsCartOpen(true)}
+                            className="relative flex items-center gap-2 text-[#e1edfa] hover:opacity-80 transition-all duration-500"
+                        >
                             <ShoppingCart size={isScrolled ? 18 : 20} className="transition-all duration-500" />
                             <span className={`transition-all duration-500 ${isScrolled ? 'hidden' : ''}`}>Cart</span>
                             <button className={`absolute ${isScrolled ? '-top-0.5 -left-1' : '-top-1 left-3'} text-[8px] text-white bg-slate-600 size-3.5 rounded-full transition-all duration-500`}>{cartCount}</button>
-                        </Link>
+                        </button>
 
                         <Link href="/admin" className={`${isScrolled ? 'px-6 py-1.5 text-sm' : 'px-8 py-2'} bg-indigo-500 hover:bg-indigo-600 transition-all text-white rounded-full transition-all duration-500`}>
                             {isScrolled ? 'Admin' : 'Login'}
@@ -272,7 +278,10 @@ const Navbar = () => {
                 </div>
             </div>
             <hr className={`transition-all duration-500 ${isScrolled ? 'border-gray-400 opacity-40' : 'border-gray-300'}`} />
-        </nav>
+            </nav>
+
+            <FloatingCart isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
+        </>
     )
 }
 
