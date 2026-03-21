@@ -1,6 +1,8 @@
 import { Outfit } from "next/font/google";
 import { Toaster } from "react-hot-toast";
 import StoreProvider from "@/app/StoreProvider";
+import WhatsAppButton from "@/components/WhatsAppButton";
+import { LoadingOverlay } from "@/components/LoadingOverlay";
 import "./globals.css";
 
 const outfit = Outfit({ subsets: ["latin"], weight: ["400", "500", "600"] });
@@ -15,7 +17,9 @@ export default function RootLayout({ children }) {
         <html lang="en">
             <body className={`${outfit.className} antialiased`} style={{ backgroundColor: '#346c6b'}}>
                 <StoreProvider>
+                    <LoadingOverlay />
                     <Toaster />
+                    <WhatsAppButton />
                     {children}
                 </StoreProvider>
             </body>

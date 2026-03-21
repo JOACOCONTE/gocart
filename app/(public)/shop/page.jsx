@@ -4,8 +4,12 @@ import ProductCard from "@/components/ProductCard"
 import { MoveLeftIcon } from "lucide-react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useSelector } from "react-redux"
+import { useSyncProductsFromLocalStorage } from "@/lib/hooks/useSyncProductsFromLocalStorage"
 
  function ShopContent() {
+
+    // Sincronizar con localStorage (solo en cliente)
+    useSyncProductsFromLocalStorage()
 
     // get query params ?search=abc
     const searchParams = useSearchParams()
