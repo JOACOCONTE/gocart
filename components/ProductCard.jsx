@@ -2,16 +2,18 @@
 import { StarIcon } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import React from 'react'
+import React, { memo, useMemo } from 'react'
 
-const ProductCard = ({ product }) => {
+const ProductCard = memo(({ product }) => {
 
     const currency = process.env.NEXT_PUBLIC_CURRENCY_SYMBOL || '$'
 
-    // calculate the average rating of the product
-    const rating = product.rating && product.rating.length > 0 
-        ? Math.round(product.rating.reduce((acc, curr) => acc + curr.rating, 0) / product.rating.length)
-        : 0;
+    // Memoizar el cálculo de rating
+    const rating = useMemo(() => {
+        return product.rating && product.rating.length > 0 
+            ? Math.round(product.rating.reduce((acc, curr) => acc + curr.rating, 0) / product.rating.length)
+            : 0
+    }, [product.rating])
 
     return (
         <Link href={`/product/${product.id}`} className=' group max-xl:mx-auto'>
@@ -31,6 +33,8 @@ const ProductCard = ({ product }) => {
             </div>
         </Link>
     )
-}
+})
+
+ProductCard.displayName = 'ProductCard'
 
 export default ProductCard

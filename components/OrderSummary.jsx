@@ -1,6 +1,7 @@
 import { PlusIcon, SquarePenIcon, XIcon } from 'lucide-react';
 import React, { useState } from 'react'
 import AddressModal from './AddressModal';
+import WhatsAppOrderModal from './WhatsAppOrderModal';
 import { useSelector } from 'react-redux';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
@@ -12,10 +13,12 @@ const OrderSummary = ({ totalPrice, items }) => {
     const router = useRouter();
 
     const addressList = useSelector(state => state.address.list);
+    const products = useSelector(state => state.product.list);
 
     const [paymentMethod, setPaymentMethod] = useState('COD');
     const [selectedAddress, setSelectedAddress] = useState(null);
     const [showAddressModal, setShowAddressModal] = useState(false);
+    const [showWhatsAppModal, setShowWhatsAppModal] = useState(false);
     const [couponCodeInput, setCouponCodeInput] = useState('');
     const [coupon, setCoupon] = useState('');
 
@@ -23,6 +26,19 @@ const OrderSummary = ({ totalPrice, items }) => {
         event.preventDefault();
         
     }
+
+    // Preparar items del carrito para WhatsApp
+    const getWhatsAppItems = () => {
+        return items.map(item => {
+            const product = products[item.productId];
+            return {
+                id: item.productId,
+                name: product?.name || 'Producto desconocido',
+                price: product?.price || 0,
+                quantity: item.quantity
+            };
+        });
+    };
 
     const handlePlaceOrder = async (e) => {
         e.preventDefault();
@@ -101,9 +117,30 @@ const OrderSummary = ({ totalPrice, items }) => {
                 <p>Total:</p>
                 <p className='font-medium text-right'>{currency}{coupon ? (totalPrice - (coupon.discount / 100 * totalPrice)).toFixed(2) : totalPrice.toLocaleString()}</p>
             </div>
-            <button onClick={e => toast.promise(handlePlaceOrder(e), { loading: 'placing Order...' })} className='w-full bg-slate-700 text-white py-2.5 rounded hover:bg-slate-900 active:scale-95 transition-all'>Place Order</button>
+            <div className='flex gap-2 w-full'>
+                <button 
+                    onClick={() => setShowWhatsAppModal(true)}
+                    className='flex-1 bg-green-500 text-white py-2.5 rounded hover:bg-green-600 active:scale-95 transition-all font-medium'
+                >
+                    📱 WhatsApp
+                </button>
+                <button 
+                    onClick={e => toast.promise(handlePlaceOrder(e), { loading: 'placing Order...' })} 
+                    className='flex-1 bg-slate-700 text-white py-2.5 rounded hover:bg-slate-900 active:scale-95 transition-all'
+                >
+                    Place Order
+                </button>
+            </div>
 
             {showAddressModal && <AddressModal setShowAddressModal={setShowAddressModal} />}
+            <WhatsAppOrderModal 
+                isOpen={showWhatsAppModal}
+                onClose={() => setShowWhatsAppModal(false)}
+                items={getWhatsAppItems()}
+                totalPrice={totalPrice}
+                currency={currency}
+                clearCartOnSend={true}
+            />
 
         </div>
     )

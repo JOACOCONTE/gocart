@@ -5,30 +5,24 @@ import { Loader } from 'lucide-react'
 
 export const LoadingOverlay = () => {
     const [isLoading, setIsLoading] = useState(false)
+    const [isMounted, setIsMounted] = useState(false)
     const pathname = usePathname()
     const searchParams = useSearchParams()
 
     useEffect(() => {
-        const handleStart = () => {
-            setIsLoading(true)
-        }
+        setIsMounted(true)
+    }, [])
 
-        const handleStop = () => {
-            setIsLoading(false)
-        }
-
-        // Mostrar loader cuando cambia la ruta
-        handleStart()
-
-        // Esconder loader después de que la página cargue
+    useEffect(() => {
+        setIsLoading(true)
         const timer = setTimeout(() => {
-            handleStop()
-        }, 500)
+            setIsLoading(false)
+        }, 300)
 
         return () => clearTimeout(timer)
     }, [pathname, searchParams])
 
-    if (!isLoading) return null
+    if (!isMounted || !isLoading) return null
 
     return (
         <div className="fixed inset-0 bg-black bg-opacity-40 backdrop-blur-sm flex items-center justify-center z-[9999] pointer-events-auto">

@@ -1,8 +1,8 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useState, useCallback, memo } from 'react'
 import { ChevronDown, X } from 'lucide-react'
 
-const ShopFilters = ({ onFilterChange, products }) => {
+const ShopFilters = memo(({ onFilterChange, products }) => {
     const [openFilter, setOpenFilter] = useState(null)
     const [selectedFilters, setSelectedFilters] = useState({
         materials: [],
@@ -34,31 +34,29 @@ const ShopFilters = ({ onFilterChange, products }) => {
         { label: 'Piedras', value: 'piedras' },
     ]
 
-    const handleFilterChange = (filterType, value) => {
-        const newFilters = {
-            ...selectedFilters,
-            [filterType]: selectedFilters[filterType].includes(value)
-                ? selectedFilters[filterType].filter(f => f !== value)
-                : [...selectedFilters[filterType], value]
-        }
-        setSelectedFilters(newFilters)
-        onFilterChange(newFilters)
-    }
+    const handleFilterChange = useCallback((filterType, value) => {
+        setSelectedFilters(prev => {
+            const newFilters = {
+                ...prev,
+                [filterType]: prev[filterType].includes(value)
+                    ? prev[filterType].filter(f => f !== value)
+                    : [...prev[filterType], value]
+            }
+            onFilterChange(newFilters)
+            return newFilters
+        })
+    }, [onFilterChange])
 
-    const handleClearFilters = () => {
-        setSelectedFilters({
+    const handleClearFilters = useCallback(() => {
+        const emptyFilters = {
             materials: [],
             types: [],
             priceRange: [0, 10000],
             search: ''
-        })
-        onFilterChange({
-            materials: [],
-            types: [],
-            priceRange: [0, 10000],
-            search: ''
-        })
-    }
+        }
+        setSelectedFilters(emptyFilters)
+        onFilterChange(emptyFilters)
+    }, [onFilterChange])
 
     const hasActiveFilters = selectedFilters.materials.length > 0 || 
                              selectedFilters.types.length > 0 || 
@@ -173,6 +171,8 @@ const ShopFilters = ({ onFilterChange, products }) => {
             </div>
         </div>
     )
-}
+})
+
+ShopFilters.displayName = 'ShopFilters'
 
 export default ShopFilters

@@ -2,12 +2,12 @@
 import { StarIcon, ShoppingCartIcon, Heart } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import React, { useState } from 'react'
+import React, { useState, memo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { addToCart } from '@/lib/features/cart/cartSlice'
 import toast from 'react-hot-toast'
 
-const ProductCardEnhanced = ({ product }) => {
+const ProductCardEnhanced = memo(({ product }) => {
 
     const currency = process.env.NEXT_PUBLIC_CURRENCY_SYMBOL || '$'
     const dispatch = useDispatch()
@@ -29,7 +29,7 @@ const ProductCardEnhanced = ({ product }) => {
         setTimeout(() => {
             setIsAdding(false)
             toast.success('Agregado al carrito')
-        }, 300)
+        }, 100)
     }
 
     const isInCart = cartItems[product.id] ? true : false
@@ -118,6 +118,8 @@ const ProductCardEnhanced = ({ product }) => {
             </div>
         </div>
     )
-}
+})
+
+ProductCardEnhanced.displayName = 'ProductCardEnhanced'
 
 export default ProductCardEnhanced

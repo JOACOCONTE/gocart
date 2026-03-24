@@ -260,7 +260,7 @@ const Navbar = () => {
                         >
                             <ShoppingCart size={isScrolled ? 18 : 20} className="transition-all duration-500" />
                             <span className={`transition-all duration-500 ${isScrolled ? 'hidden' : ''}`}>Cart</span>
-                            <button className={`absolute ${isScrolled ? '-top-0.5 -left-1' : '-top-1 left-3'} text-[8px] text-white bg-slate-600 size-3.5 rounded-full transition-all duration-500`}>{cartCount}</button>
+                            <div className={`absolute ${isScrolled ? '-top-0.5 -left-1' : '-top-1 left-3'} text-[8px] text-white bg-slate-600 size-3.5 rounded-full flex items-center justify-center font-bold transition-all duration-500`}>{cartCount}</div>
                         </button>
 
                         <Link href="/admin" className={`${isScrolled ? 'px-6 py-1.5 text-sm' : 'px-8 py-2'} bg-indigo-500 hover:bg-indigo-600 transition-all text-white rounded-full transition-all duration-500`}>
