@@ -59,15 +59,15 @@ export default function AdminHeroForm() {
 
     return (
         <div className="w-full max-w-7xl mx-auto">
-            <h1 className="text-3xl font-bold mb-6 px-6">Editar Hero</h1>
+            <h1 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6 px-4 md:px-6">Editar Hero</h1>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 px-6">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6 px-4 md:px-6">
                 {/* Formulario - 2 columnas */}
                 <div className="lg:col-span-2">
-                    <div className="flex gap-4 mb-6 border-b bg-white rounded-t-lg px-6 pt-6">
+                    <div className="flex gap-2 md:gap-4 mb-4 md:mb-6 border-b bg-white rounded-t-lg px-3 md:px-6 pt-4 md:pt-6 overflow-x-auto">
                         <button
                             onClick={() => setActiveTab('main')}
-                            className={`pb-3 px-4 font-medium transition ${
+                            className={`pb-3 px-2 md:px-4 font-medium transition text-xs md:text-sm whitespace-nowrap ${
                                 activeTab === 'main'
                                     ? 'border-b-2 border-blue-500 text-blue-600'
                                     : 'text-gray-600 hover:text-gray-900'
@@ -77,7 +77,7 @@ export default function AdminHeroForm() {
                         </button>
                         <button
                             onClick={() => setActiveTab('best')}
-                            className={`pb-3 px-4 font-medium transition ${
+                            className={`pb-3 px-2 md:px-4 font-medium transition text-xs md:text-sm whitespace-nowrap ${
                                 activeTab === 'best'
                                     ? 'border-b-2 border-blue-500 text-blue-600'
                                     : 'text-gray-600 hover:text-gray-900'
@@ -87,7 +87,7 @@ export default function AdminHeroForm() {
                         </button>
                         <button
                             onClick={() => setActiveTab('discount')}
-                            className={`pb-3 px-4 font-medium transition ${
+                            className={`pb-3 px-2 md:px-4 font-medium transition text-xs md:text-sm whitespace-nowrap ${
                                 activeTab === 'discount'
                                     ? 'border-b-2 border-blue-500 text-blue-600'
                                     : 'text-gray-600 hover:text-gray-900'
@@ -97,79 +97,79 @@ export default function AdminHeroForm() {
                         </button>
                     </div>
 
-                    <div className="bg-white rounded-b-lg p-6 shadow">
+                    <div className="bg-white rounded-b-lg p-4 md:p-6 shadow">
             {/* MAIN SECTION */}
             {activeTab === 'main' && (
-                <div className="space-y-6">
+                <div className="space-y-4 md:space-y-6">
                     <div>
-                        <label className="block text-sm font-medium mb-2">Badge</label>
+                        <label className="block text-xs md:text-sm font-medium mb-2">Badge</label>
                         <input
                             type="text"
                             value={formMain.badge}
                             onChange={(e) => setFormMain({ ...formMain, badge: e.target.value })}
-                            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-full px-3 md:px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
                             placeholder="Ej: Noticias"
                         />
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium mb-2">Texto del Badge</label>
+                        <label className="block text-xs md:text-sm font-medium mb-2">Texto del Badge</label>
                         <input
                             type="text"
                             value={formMain.badgeText}
                             onChange={(e) => setFormMain({ ...formMain, badgeText: e.target.value })}
-                            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-full px-3 md:px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
                             placeholder="Ej: Ultimas novedades de Arte en Joyas"
                         />
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium mb-2">Título Principal</label>
+                        <label className="block text-xs md:text-sm font-medium mb-2">Título Principal</label>
                         <textarea
                             value={formMain.title}
                             onChange={(e) => setFormMain({ ...formMain, title: e.target.value })}
-                            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 h-24"
+                            className="w-full px-3 md:px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 h-20 md:h-24 text-sm"
                             placeholder="Título del hero"
                         />
                     </div>
 
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 md:gap-4">
                         <div>
-                            <label className="block text-sm font-medium mb-2">Subtítulo 1</label>
+                            <label className="block text-xs md:text-sm font-medium mb-2">Subtítulo 1</label>
                             <input
                                 type="text"
                                 value={formMain.subtitle1}
                                 onChange={(e) => setFormMain({ ...formMain, subtitle1: e.target.value })}
-                                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full px-3 md:px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
                                 placeholder="Ej: Tecnología y Creatividad"
                             />
                         </div>
                         <div>
-                            <label className="block text-sm font-medium mb-2">Subtítulo 2</label>
+                            <label className="block text-xs md:text-sm font-medium mb-2">Subtítulo 2</label>
                             <input
                                 type="text"
                                 value={formMain.subtitle2}
                                 onChange={(e) => setFormMain({ ...formMain, subtitle2: e.target.value })}
-                                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full px-3 md:px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
                                 placeholder="Ej: Piezas únicas"
                             />
                         </div>
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium mb-2">Texto del Botón</label>
+                        <label className="block text-xs md:text-sm font-medium mb-2">Texto del Botón</label>
                         <input
                             type="text"
                             value={formMain.buttonText}
                             onChange={(e) => setFormMain({ ...formMain, buttonText: e.target.value })}
-                            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-full px-3 md:px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
                             placeholder="LEARN MORE"
                         />
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium mb-2">Imagen</label>
-                        <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                        <label className="block text-xs md:text-sm font-medium mb-2">Imagen</label>
+                        <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 md:p-6 text-center">
                             {previewMain ? (
                                 <div className="relative inline-block">
                                     <Image
@@ -177,7 +177,7 @@ export default function AdminHeroForm() {
                                         alt="preview"
                                         width={200}
                                         height={200}
-                                        className="rounded-lg max-h-48"
+                                        className="rounded-lg max-h-40 md:max-h-48"
                                     />
                                     <button
                                         type="button"
@@ -191,9 +191,9 @@ export default function AdminHeroForm() {
                                     </button>
                                 </div>
                             ) : (
-                                <label className="cursor-pointer flex items-center justify-center gap-2">
+                                <label className="cursor-pointer flex flex-col items-center justify-center gap-2">
                                     <Upload size={20} className="text-gray-400" />
-                                    <span className="text-gray-600">Click para subir imagen</span>
+                                    <span className="text-xs md:text-sm text-gray-600">Click para subir imagen</span>
                                     <input
                                         type="file"
                                         accept="image/*"
@@ -207,7 +207,7 @@ export default function AdminHeroForm() {
 
                     <button
                         onClick={handleSaveMain}
-                        className="w-full bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 transition"
+                        className="w-full bg-blue-600 text-white py-2.5 md:py-3 rounded-lg font-medium hover:bg-blue-700 transition text-sm md:text-base"
                     >
                         Guardar Sección Principal
                     </button>

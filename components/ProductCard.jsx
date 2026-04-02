@@ -16,20 +16,20 @@ const ProductCard = memo(({ product }) => {
     }, [product.rating])
 
     return (
-        <Link href={`/product/${product.id}`} className=' group max-xl:mx-auto'>
-            <div className='bg-[#F5F5F5] h-40  sm:w-60 sm:h-68 rounded-lg flex items-center justify-center'>
-                <Image width={500} height={500} className='max-h-30 sm:max-h-40 w-auto group-hover:scale-115 transition duration-300' src={product.images[0]} alt="" />
+        <Link href={`/product/${product.id}`} className='group'>
+            <div className='bg-[#F5F5F5] h-32 sm:h-40 md:h-48 rounded-lg flex items-center justify-center overflow-hidden'>
+                <Image width={500} height={500} className='max-h-28 sm:max-h-36 md:max-h-44 w-auto group-hover:scale-110 transition duration-300' src={product.images[0]} alt="" />
             </div>
-            <div className='flex justify-between gap-3 text-sm text-slate-800 pt-2 max-w-60'>
+            <div className='flex flex-col gap-2 text-xs sm:text-sm text-slate-800 pt-2'>
                 <div>
-                    <p>{product.name}</p>
-                    <div className='flex'>
+                    <p className='line-clamp-2 font-medium'>{product.name}</p>
+                    <div className='flex gap-0.5'>
                         {Array(5).fill('').map((_, index) => (
-                            <StarIcon key={index} size={14} className='text-transparent mt-0.5' fill={rating >= index + 1 ? "#00C950" : "#D1D5DB"} />
+                            <StarIcon key={index} size={13} className='text-transparent' fill={rating >= index + 1 ? "#00C950" : "#D1D5DB"} />
                         ))}
                     </div>
                 </div>
-                <p>{currency}{product.price}</p>
+                <p className='font-semibold text-slate-900'>{currency}{product.price}</p>
             </div>
         </Link>
     )

@@ -51,43 +51,60 @@ export default function AdminProducts() {
     return (
         <div className="text-slate-500">
             {/* Header */}
-            <div className="flex items-center justify-between mb-8">
-                <h1 className="text-2xl">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 md:mb-8">
+                <h1 className="text-xl md:text-2xl">
                     Gestionar <span className="text-slate-800 font-medium">Productos</span>
                 </h1>
-                <Link href="/admin/products/add" className="flex items-center gap-2 bg-slate-700 hover:bg-slate-800 text-white px-6 py-2.5 rounded-lg transition font-semibold">
+                <Link href="/admin/products/add" className="flex items-center gap-2 bg-slate-700 hover:bg-slate-800 text-white px-4 md:px-6 py-2.5 rounded-lg transition font-semibold text-sm whitespace-nowrap">
                     <PlusIcon size={18} />
-                    Agregar Producto
+                    <span className="hidden sm:inline">Agregar Producto</span>
+                    <span className="sm:hidden">Agregar</span>
                 </Link>
             </div>
 
-            {/* Tabla de productos */}
+            {/* Vista de productos */}
             {displayedProducts.length > 0 ? (
-                <div className="overflow-x-auto bg-white rounded-lg shadow-sm">
-                    <table className="w-full">
-                        <thead className="bg-slate-50 border-b border-slate-200">
-                            <tr>
-                                <th className="text-left py-3 px-4 font-semibold text-slate-700">Imagen</th>
-                                <th className="text-left py-3 px-4 font-semibold text-slate-700">Nombre</th>
-                                <th className="text-left py-3 px-4 font-semibold text-slate-700">Categoría</th>
-                                <th className="text-left py-3 px-4 font-semibold text-slate-700">Precio</th>
-                                <th className="text-left py-3 px-4 font-semibold text-slate-700">Stock</th>
-                                <th className="text-left py-3 px-4 font-semibold text-slate-700">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {displayedProducts.map((product) => (
-                                <AdminProductCard
-                                    key={product.id}
-                                    product={product}
-                                    onDelete={handleDelete}
-                                />
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
+                <>
+                    {/* Vista Desktop - Tabla */}
+                    <div className="hidden md:block overflow-x-auto bg-white rounded-lg shadow-sm">
+                        <table className="w-full text-sm">
+                            <thead className="bg-slate-50 border-b border-slate-200">
+                                <tr>
+                                    <th className="text-left py-3 px-4 font-semibold text-slate-700">Imagen</th>
+                                    <th className="text-left py-3 px-4 font-semibold text-slate-700">Nombre</th>
+                                    <th className="text-left py-3 px-4 font-semibold text-slate-700">Categoría</th>
+                                    <th className="text-left py-3 px-4 font-semibold text-slate-700">Precio</th>
+                                    <th className="text-left py-3 px-4 font-semibold text-slate-700">Stock</th>
+                                    <th className="text-left py-3 px-4 font-semibold text-slate-700">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {displayedProducts.map((product) => (
+                                    <AdminProductCard
+                                        key={product.id}
+                                        product={product}
+                                        onDelete={handleDelete}
+                                        isMobileView={false}
+                                    />
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    {/* Vista Mobile - Cards */}
+                    <div className="md:hidden grid grid-cols-1 gap-4">
+                        {displayedProducts.map((product) => (
+                            <AdminProductCard
+                                key={product.id}
+                                product={product}
+                                onDelete={handleDelete}
+                                isMobileView={true}
+                            />
+                        ))}
+                    </div>
+                </>
             ) : (
-                <div className="text-center py-16 bg-white rounded-lg">
+                <div className="text-center py-12 md:py-16 bg-white rounded-lg">
                     <p className="text-slate-600 mb-4">No hay productos cargados aún</p>
                     <Link href="/admin/products/add" className="inline-block px-6 py-2.5 bg-slate-700 hover:bg-slate-800 text-white rounded-lg transition font-semibold">
                         Crear el primer producto
@@ -96,8 +113,8 @@ export default function AdminProducts() {
             )}
 
             {displayedProducts.length < products.length && (
-                <div className="text-center py-8">
-                    <p className="text-slate-600 text-sm">
+                <div className="text-center py-6 md:py-8">
+                    <p className="text-slate-600 text-xs md:text-sm">
                         Mostrando {displayedProducts.length} de {products.length} productos
                     </p>
                 </div>

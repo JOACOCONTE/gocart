@@ -1,5 +1,5 @@
 'use client'
-import { Search, ShoppingCart, X } from "lucide-react";
+import { Search, ShoppingCart, X, Menu } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useRef, useEffect } from "react";
@@ -25,6 +25,7 @@ const Navbar = () => {
     const [isScrolled, setIsScrolled] = useState(false)
     const [expandSearch, setExpandSearch] = useState(false)
     const [isCartOpen, setIsCartOpen] = useState(false)
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
     const searchInputRef = useRef(null)
     const cartCount = useSelector(state => state.cart.total)
 
@@ -122,13 +123,13 @@ const Navbar = () => {
                     <div className={`hidden sm:flex items-center ${isScrolled ? 'gap-3 lg:gap-6' : 'gap-4 lg:gap-8'} text-[#e1edfa] transition-all duration-500`}>
                         <Link href="/" className={`${isScrolled ? 'text-sm' : ''} hover:opacity-80 transition-all duration-500`}>Home</Link>
                         <Link href="/shop" className={`${isScrolled ? 'text-sm' : ''} hover:opacity-80 transition-all duration-500`}>Shop</Link>
-                        <Link href="/" className={`${isScrolled ? 'text-sm' : ''} hover:opacity-80 transition-all duration-500`}>About</Link>
-                        <Link href="/" className={`${isScrolled ? 'text-sm' : ''} hover:opacity-80 transition-all duration-500`}>Contact</Link>
+                        <Link href="/about" className={`${isScrolled ? 'text-sm' : ''} hover:opacity-80 transition-all duration-500`}>About</Link>
+                        <Link href="/contact" className={`${isScrolled ? 'text-sm' : ''} hover:opacity-80 transition-all duration-500`}>Contact</Link>
 
                         {/* Search Bar */}
                         {!isScrolled ? (
                             <form onSubmit={handleSearch} className="hidden xl:flex items-center relative opacity-100 transition-all duration-500">
-                                <div className="flex items-center w-xs text-sm gap-2 bg-slate-100 px-4 py-3 rounded-full">
+                                <div className="flex items-center w-72 text-sm gap-2 bg-slate-100 px-4 py-3 rounded-full">
                                     <Search size={18} className="text-slate-600" />
                                     <input 
                                         ref={searchInputRef}
@@ -269,13 +270,55 @@ const Navbar = () => {
 
                     </div>
 
-                    {/* Mobile User Button  */}
-                    <div className="sm:hidden">
-                        <Link href="/admin" className="px-7 py-1.5 bg-indigo-500 hover:bg-indigo-600 text-sm transition text-white rounded-full inline-block">
+                    {/* Mobile Menu Button */}
+                    <div className="sm:hidden flex items-center gap-2">
+                        <button 
+                            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                            className="p-2 text-[#e1edfa] hover:bg-slate-700 rounded-lg transition"
+                        >
+                            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+                        </button>
+                        <Link href="/admin" className="px-5 py-1.5 bg-indigo-500 hover:bg-indigo-600 text-xs transition text-white rounded-full inline-block">
                             Login
                         </Link>
                     </div>
                 </div>
+
+                {/* Mobile Menu */}
+                {isMobileMenuOpen && (
+                    <div className="sm:hidden bg-[#2a5756] border-t border-slate-600 px-6 py-4">
+                        <nav className="space-y-3">
+                            <Link 
+                                href="/" 
+                                className="block py-2 text-[#e1edfa] hover:text-white font-medium text-sm transition"
+                                onClick={() => setIsMobileMenuOpen(false)}
+                            >
+                                Inicio
+                            </Link>
+                            <Link 
+                                href="/shop" 
+                                className="block py-2 text-[#e1edfa] hover:text-white font-medium text-sm transition"
+                                onClick={() => setIsMobileMenuOpen(false)}
+                            >
+                                Tienda
+                            </Link>
+                            <Link 
+                                href="/about" 
+                                className="block py-2 text-[#e1edfa] hover:text-white font-medium text-sm transition"
+                                onClick={() => setIsMobileMenuOpen(false)}
+                            >
+                                Sobre Mi
+                            </Link>
+                            <Link 
+                                href="/contact" 
+                                className="block py-2 text-[#e1edfa] hover:text-white font-medium text-sm transition"
+                                onClick={() => setIsMobileMenuOpen(false)}
+                            >
+                                Contacto
+                            </Link>
+                        </nav>
+                    </div>
+                )}
             </div>
             <hr className={`transition-all duration-500 ${isScrolled ? 'border-gray-400 opacity-40' : 'border-gray-300'}`} />
             </nav>

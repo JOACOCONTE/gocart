@@ -11,6 +11,7 @@ const AdminLayout = ({ children }) => {
 
     const [isAdmin, setIsAdmin] = useState(false)
     const [loading, setLoading] = useState(true)
+    const [sidebarOpen, setSidebarOpen] = useState(false)
 
     const checkAdminSession = () => {
         try {
@@ -44,10 +45,17 @@ const AdminLayout = ({ children }) => {
         <Loading />
     ) : isAdmin ? (
         <div className="flex flex-col h-screen">
-            <AdminNavbar onLogout={handleLogout} />
-            <div className="flex flex-1 items-start h-full overflow-y-scroll no-scrollbar">
-                <AdminSidebar />
-                <div className="flex-1 h-full p-5 lg:pl-12 lg:pt-12 overflow-y-scroll">
+            <AdminNavbar onLogout={handleLogout} sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+            <div className="flex flex-1 items-start h-full overflow-y-scroll no-scrollbar relative">
+                {/* Overlay para mobile */}
+                {sidebarOpen && (
+                    <div 
+                        className="fixed inset-0 bg-black/50 z-30 md:hidden"
+                        onClick={() => setSidebarOpen(false)}
+                    />
+                )}
+                <AdminSidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+                <div className="flex-1 h-full p-4 md:p-5 md:pl-12 md:pt-12 overflow-y-scroll">
                     {children}
                 </div>
             </div>

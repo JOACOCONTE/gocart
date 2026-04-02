@@ -30,9 +30,9 @@ const OrderSummary = ({ totalPrice, items }) => {
     // Preparar items del carrito para WhatsApp
     const getWhatsAppItems = () => {
         return items.map(item => {
-            const product = products[item.productId];
+            const product = products.find(p => p.id === item.id);
             return {
-                id: item.productId,
+                id: item.id,
                 name: product?.name || 'Producto desconocido',
                 price: product?.price || 0,
                 quantity: item.quantity

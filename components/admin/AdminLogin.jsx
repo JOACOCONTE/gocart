@@ -31,12 +31,12 @@ const AdminLogin = ({ onLoginSuccess }) => {
     }
 
     return (
-        <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100 px-6">
+        <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100 px-4 md:px-6">
             <div className="w-full max-w-md">
                 {/* Logo */}
-                <div className="text-center mb-10">
-                    <h1 className="text-4xl font-semibold text-slate-700 mb-2">
-                        <span className="text-green-600">go</span>cart<span className="text-green-600 text-5xl leading-0">.</span>
+                <div className="text-center mb-8 md:mb-10">
+                    <h1 className="text-3xl md:text-4xl font-semibold text-slate-700 mb-2">
+                        <span className="text-green-600">go</span>cart<span className="text-green-600 text-4xl md:text-5xl leading-0">.</span>
                     </h1>
                     <p className="text-xs font-semibold px-3 p-0.5 rounded-full inline-flex items-center gap-2 text-white bg-green-500">
                         Admin Panel
@@ -44,8 +44,8 @@ const AdminLogin = ({ onLoginSuccess }) => {
                 </div>
 
                 {/* Login Card */}
-                <div className="bg-white rounded-lg shadow-lg p-8">
-                    <h2 className="text-2xl font-semibold text-slate-800 mb-6 text-center">Iniciar Sesión</h2>
+                <div className="bg-white rounded-lg shadow-lg p-6 md:p-8">
+                    <h2 className="text-xl md:text-2xl font-semibold text-slate-800 mb-6 text-center">Iniciar Sesión</h2>
 
                     {error && (
                         <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6 text-sm">
@@ -64,7 +64,7 @@ const AdminLogin = ({ onLoginSuccess }) => {
                                 value={username}
                                 onChange={(e) => setUsername(e.target.value)}
                                 placeholder="Ingresa tu usuario"
-                                className="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition"
+                                className="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition text-sm md:text-base"
                                 disabled={loading}
                             />
                         </div>
@@ -80,7 +80,7 @@ const AdminLogin = ({ onLoginSuccess }) => {
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                     placeholder="Ingresa tu contraseña"
-                                    className="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition"
+                                    className="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition text-sm md:text-base"
                                     disabled={loading}
                                 />
                                 <button
@@ -102,7 +102,7 @@ const AdminLogin = ({ onLoginSuccess }) => {
                         <button
                             type="submit"
                             disabled={loading || !username || !password}
-                            className="w-full bg-green-600 hover:bg-green-700 disabled:bg-slate-400 text-white font-semibold py-2.5 rounded-lg transition flex items-center justify-center gap-2"
+                            className="w-full bg-green-600 hover:bg-green-700 disabled:bg-slate-400 text-white font-semibold py-2.5 rounded-lg transition flex items-center justify-center gap-2 text-sm md:text-base"
                         >
                             {loading ? "Cargando..." : "Iniciar Sesión"}
                             {!loading && <ArrowRightIcon size={18} />}
@@ -111,8 +111,8 @@ const AdminLogin = ({ onLoginSuccess }) => {
                 </div>
 
                 {/* Footer */}
-                <div className="text-center mt-8">
-                    <Link href="/" className="text-sm text-slate-600 hover:text-slate-800 transition">
+                <div className="text-center mt-6 md:mt-8">
+                    <Link href="/" className="text-xs md:text-sm text-slate-600 hover:text-slate-800 transition">
                         ← Volver al inicio
                     </Link>
                 </div>

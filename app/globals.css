@@ -12,6 +12,17 @@
 }
 
 @layer base {
+    html {
+        -webkit-text-size-adjust: 100%;
+        -ms-text-size-adjust: 100%;
+    }
+    
+    body {
+        -webkit-text-size-adjust: 100%;
+        -ms-text-size-adjust: 100%;
+        overflow-x: hidden;
+    }
+    
     button {
         cursor: pointer;
     }
