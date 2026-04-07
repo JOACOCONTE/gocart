@@ -13,7 +13,7 @@ const WhatsAppButton = () => {
 
     const whatsappNumber = "5491160265599" // Número de WhatsApp (con código de país)
     const message = "Hola, tengo una consulta sobre los productos" // Mensaje predeterminado
-    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`
+    const whatsappUrl = `https://wa.me/${+5493525306926}?text=${encodeURIComponent(message)}`
 
     return (
         <a

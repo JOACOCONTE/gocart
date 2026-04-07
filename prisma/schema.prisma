@@ -3,9 +3,8 @@ generator client {
 }
 
 datasource db {
-    provider  = "postgresql"
-    url       = env("DATABASE_URL")
-    directUrl = env("DIRECT_URL")
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
 }
 
 // Required for creating a User: id, name, email, image, cart (optional JSON string)
@@ -171,6 +170,35 @@ model Specification {
     accent      String   @default("#000000") // Hex color
     order       Int      @default(0) // For sorting
     isActive    Boolean  @default(true)
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+}
+
+// Banner for home page
+model Banner {
+    id          String   @id @default(cuid())
+    title       String
+    description String
+    couponCode  String
+    discount    String
+    image       String   // Base64 or image URL
+    isVisible   Boolean  @default(true)
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+}
+
+// Hero section for home page
+model Hero {
+    id          String   @id @default(cuid())
+    mainTitle   String
+    mainSubtitle String
+    mainImage   String   // Base64 or image URL
+    bestTitle   String
+    bestDescription String
+    bestImage   String
+    discountTitle String
+    discountDescription String
+    discountImage String
     createdAt   DateTime @default(now())
     updatedAt   DateTime @updatedAt
 }

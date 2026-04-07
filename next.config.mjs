@@ -1,9 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+    // Configuración de salida para servidor
+    output: 'standalone',
+    
     images: {
-        // Solo deshabilitar en desarrollo si es necesario
         unoptimized: process.env.NODE_ENV === 'development',
-        // Dominios remotos permitidos (agregar según sea necesario)
         remotePatterns: [
             {
                 protocol: 'https',
@@ -15,14 +16,32 @@ const nextConfig = {
                 port: '3000',
             },
         ],
-        // Cache de imágenes más agresivo
-        minimumCacheTTL: 60 * 60 * 24 * 365, // 1 año
+        minimumCacheTTL: 60 * 60 * 24 * 365,
     },
-    // Compresión de respuesta
+    
     compress: true,
-    // Prefetching automático
+    
     experimental: {
         optimizePackageImports: ['lucide-react', 'react-hot-toast'],
+    },
+    
+    // Configuración segura para servidor
+    poweredByHeader: false,
+    reactStrictMode: true,
+    
+    // Permitir cambios de archivo en .data
+    webpackDevMiddleware: {
+        watchOptions: {
+            ignored: '/node_modules/',
+        }
+    },
+    
+    // Configuración de servidor
+    serverRuntimeConfig: {
+        PROJECT_ROOT: process.cwd(),
+    },
+    publicRuntimeConfig: {
+        apiUrl: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000',
     },
 };
 

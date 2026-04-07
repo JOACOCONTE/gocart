@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setBannerData, toggleBannerVisibility } from '@/lib/features/banner/bannerSlice'
 import { Copy, Eye, EyeOff } from 'lucide-react'
@@ -10,20 +10,92 @@ export default function AdminBannerForm() {
     const banner = useSelector(state => state.banner.banner)
     
     const [formData, setFormData] = useState(banner)
+    const [bannerId, setBannerId] = useState(null)
+    const [loading, setLoading] = useState(false)
+
+    // Cargar banner del servidor
+    useEffect(() => {
+        const loadBanner = async () => {
+            try {
+                const response = await fetch('/api/banner')
+                if (response.ok) {
+                    const data = await response.json()
+                    if (data.id) {
+                        setBannerId(data.id)
+                        setFormData(data)
+                        dispatch(setBannerData(data))
+                    } else {
+                        setFormData(banner)
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading banner:', error)
+                setFormData(banner)
+            }
+        }
+        
+        loadBanner()
+    }, [dispatch, banner])
 
     const handleChange = (e) => {
         const { name, value } = e.target
         setFormData({ ...formData, [name]: value })
     }
 
-    const handleSave = () => {
-        dispatch(setBannerData(formData))
-        toast.success('Banner actualizado!')
+    const handleSave = async () => {
+        setLoading(true)
+        try {
+            if (bannerId) {
+                // Actualizar banner existente
+                const response = await fetch(`/api/banner/${bannerId}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                })
+                if (!response.ok) throw new Error('Error updating banner')
+                const updated = await response.json()
+                setBannerId(updated.id)
+                dispatch(setBannerData(updated))
+            } else {
+                // Crear nuevo banner
+                const response = await fetch('/api/banner', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                })
+                if (!response.ok) throw new Error('Error creating banner')
+                const created = await response.json()
+                setBannerId(created.id)
+                dispatch(setBannerData(created))
+            }
+            toast.success('Banner guardado en el servidor!')
+        } catch (error) {
+            console.error('Error saving banner:', error)
+            toast.error('Error al guardar el banner')
+        } finally {
+            setLoading(false)
+        }
     }
 
-    const handleToggleVisibility = () => {
-        dispatch(toggleBannerVisibility())
-        toast.success(banner.isVisible ? 'Banner ocultado' : 'Banner visible')
+    const handleToggleVisibility = async () => {
+        const newVisibility = !formData.isVisible
+        setFormData({ ...formData, isVisible: newVisibility })
+        
+        try {
+            if (bannerId) {
+                const response = await fetch(`/api/banner/${bannerId}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ ...formData, isVisible: newVisibility })
+                })
+                if (response.ok) {
+                    dispatch(toggleBannerVisibility())
+                    toast.success(newVisibility ? 'Banner visible' : 'Banner ocultado')
+                }
+            }
+        } catch (error) {
+            console.error('Error toggling visibility:', error)
+        }
     }
 
     const handleCopyCoupon = () => {

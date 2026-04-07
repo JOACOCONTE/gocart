@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateMainSection, updateBestProducts, updateDiscounts } from '@/lib/features/hero/heroSlice'
 import { Upload, X } from 'lucide-react'
@@ -19,6 +19,49 @@ export default function AdminHeroForm() {
     const [formMain, setFormMain] = useState(heroData.mainSection)
     const [formBest, setFormBest] = useState(heroData.bestProducts)
     const [formDiscount, setFormDiscount] = useState(heroData.discounts)
+
+    const [heroId, setHeroId] = useState(null)
+    const [loading, setLoading] = useState(false)
+
+    // Cargar hero del servidor
+    useEffect(() => {
+        const loadHero = async () => {
+            try {
+                const response = await fetch('/api/hero')
+                if (response.ok) {
+                    const hero = await response.json()
+                    if (hero.id) {
+                        setHeroId(hero.id)
+                        // Transformar datos del servidor al formato esperado
+                        setFormMain({
+                            ...formMain,
+                            title: hero.mainTitle,
+                            image: hero.mainImage
+                        })
+                        setFormBest({
+                            ...formBest,
+                            title: hero.bestTitle,
+                            description: hero.bestDescription,
+                            image: hero.bestImage
+                        })
+                        setFormDiscount({
+                            ...formDiscount,
+                            title: hero.discountTitle,
+                            description: hero.discountDescription,
+                            image: hero.discountImage
+                        })
+                        setPreviewMain(hero.mainImage)
+                        setPreviewBest(hero.bestImage)
+                        setPreviewDiscount(hero.discountImage)
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading hero:', error)
+            }
+        }
+        
+        loadHero()
+    }, [])
 
     const handleImageUpload = (e, type) => {
         const file = e.target.files[0]
@@ -42,19 +85,133 @@ export default function AdminHeroForm() {
         }
     }
 
-    const handleSaveMain = () => {
-        dispatch(updateMainSection(formMain))
-        toast.success('Main section updated!')
+    const handleSaveMain = async () => {
+        setLoading(true)
+        try {
+            const heroPayload = {
+                mainTitle: formMain.title,
+                mainSubtitle: formMain.subtitle1,
+                mainImage: formMain.image,
+                bestTitle: formBest.title,
+                bestDescription: formBest.description || formBest.text,
+                bestImage: formBest.image,
+                discountTitle: formDiscount.title,
+                discountDescription: formDiscount.description || formDiscount.text,
+                discountImage: formDiscount.image
+            }
+
+            if (heroId) {
+                const response = await fetch(`/api/hero/${heroId}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(heroPayload)
+                })
+                if (!response.ok) throw new Error('Error updating hero')
+            } else {
+                const response = await fetch('/api/hero', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(heroPayload)
+                })
+                if (!response.ok) throw new Error('Error creating hero')
+                const created = await response.json()
+                setHeroId(created.id)
+            }
+
+            dispatch(updateMainSection(formMain))
+            toast.success('Sección principal guardada en el servidor!')
+        } catch (error) {
+            console.error('Error saving hero:', error)
+            toast.error('Error al guardar')
+        } finally {
+            setLoading(false)
+        }
     }
 
-    const handleSaveBest = () => {
-        dispatch(updateBestProducts(formBest))
-        toast.success('Best products section updated!')
+    const handleSaveBest = async () => {
+        setLoading(true)
+        try {
+            const heroPayload = {
+                mainTitle: formMain.title,
+                mainSubtitle: formMain.subtitle1,
+                mainImage: formMain.image,
+                bestTitle: formBest.title,
+                bestDescription: formBest.description || formBest.text,
+                bestImage: formBest.image,
+                discountTitle: formDiscount.title,
+                discountDescription: formDiscount.description || formDiscount.text,
+                discountImage: formDiscount.image
+            }
+
+            if (heroId) {
+                const response = await fetch(`/api/hero/${heroId}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(heroPayload)
+                })
+                if (!response.ok) throw new Error('Error updating hero')
+            } else {
+                const response = await fetch('/api/hero', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(heroPayload)
+                })
+                if (!response.ok) throw new Error('Error creating hero')
+                const created = await response.json()
+                setHeroId(created.id)
+            }
+
+            dispatch(updateBestProducts(formBest))
+            toast.success('Best products guardado en el servidor!')
+        } catch (error) {
+            console.error('Error saving hero:', error)
+            toast.error('Error al guardar')
+        } finally {
+            setLoading(false)
+        }
     }
 
-    const handleSaveDiscount = () => {
-        dispatch(updateDiscounts(formDiscount))
-        toast.success('Discounts section updated!')
+    const handleSaveDiscount = async () => {
+        setLoading(true)
+        try {
+            const heroPayload = {
+                mainTitle: formMain.title,
+                mainSubtitle: formMain.subtitle1,
+                mainImage: formMain.image,
+                bestTitle: formBest.title,
+                bestDescription: formBest.description || formBest.text,
+                bestImage: formBest.image,
+                discountTitle: formDiscount.title,
+                discountDescription: formDiscount.description || formDiscount.text,
+                discountImage: formDiscount.image
+            }
+
+            if (heroId) {
+                const response = await fetch(`/api/hero/${heroId}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(heroPayload)
+                })
+                if (!response.ok) throw new Error('Error updating hero')
+            } else {
+                const response = await fetch('/api/hero', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(heroPayload)
+                })
+                if (!response.ok) throw new Error('Error creating hero')
+                const created = await response.json()
+                setHeroId(created.id)
+            }
+
+            dispatch(updateDiscounts(formDiscount))
+            toast.success('Descuentos guardados en el servidor!')
+        } catch (error) {
+            console.error('Error saving hero:', error)
+            toast.error('Error al guardar')
+        } finally {
+            setLoading(false)
+        }
     }
 
     return (
