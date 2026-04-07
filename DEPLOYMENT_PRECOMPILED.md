@@ -3,6 +3,7 @@
 ## ⚠️ POR QUÉ CAMBIÓ EL PROCESO
 
 El servidor compartido rechaza la ejecución de binarios en `node_modules/.bin/`, causando:
+
 ```
 sh: /home/u566734493/domains/rubenbadia.com.ar/.../.bin/next: Permission denied
 ```
@@ -22,6 +23,7 @@ bash prepare-deployment.sh
 ```
 
 Esto automáticamente:
+
 1. ✅ Limpia builds anteriores
 2. ✅ Instala todas las dependencias
 3. ✅ Compila la app (genera `.next/`)
@@ -86,11 +88,13 @@ El directorio `.next/` pre-compilado ahora forma parte del repositorio, permitie
 ## ✅ Checklist de Deployment
 
 **En local (antes de hacer push):**
+
 - [ ] Ejecuté `bash prepare-deployment.sh`
 - [ ] O ejecuté `npm run build` y hice commit de `.next/`
 - [ ] El commit está en GitHub
 
 **En el servidor:**
+
 - [ ] Conecté por SSH
 - [ ] Ejecuté `bash deploy.sh`
 - [ ] Verifiqué que la app inicia sin errores
@@ -103,6 +107,7 @@ El directorio `.next/` pre-compilado ahora forma parte del repositorio, permitie
 ### Iniciar la aplicación:
 
 **Opción 1: Directamente**
+
 ```bash
 npm start
 # Se ejecuta en puerto 3000
@@ -110,6 +115,7 @@ npm start
 ```
 
 **Opción 2: Con PM2 (recomendado)**
+
 ```bash
 # Primera vez
 npm install -g pm2
@@ -140,6 +146,7 @@ ps aux | grep node
 ## 🔧 Solución de Problemas
 
 **Error: "Permission denied"**
+
 ```bash
 # YA NO DEBERÍA OCURRIR - la app no se compila en el servidor
 # Si aún ocurre, verifica que .next/ existe:
@@ -147,6 +154,7 @@ ls -la .next/
 ```
 
 **Error: "Cannot find .next"**
+
 ```bash
 # Solución: Asegurate de que .next está en GitHub
 git log --oneline --name-only | head -20
@@ -157,6 +165,7 @@ bash prepare-deployment.sh
 ```
 
 **Puerto 3000 ocupado:**
+
 ```bash
 npm start -- --port 3001
 # O:
@@ -164,6 +173,7 @@ PORT=3001 npm start
 ```
 
 **PM2 no arranca correctamente:**
+
 ```bash
 pm2 delete gocart
 pm2 start npm --name gocart -- start
@@ -178,7 +188,7 @@ pm2 save
 ✅ **Más confiable:** compilación garantizada localmente  
 ✅ **Menos problemas:** evita permisos del servidor  
 ✅ **Pre-testeo:** puedes probar locally antes de deployar  
-✅ **Rollback fácil:** basta revertir Git si algo falla  
+✅ **Rollback fácil:** basta revertir Git si algo falla
 
 ---
 
