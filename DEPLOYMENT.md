@@ -41,6 +41,7 @@ npm run build
 ### 5. Iniciar el servidor
 
 **Opción A: Usando npm start**
+
 ```bash
 npm start
 ```
@@ -48,6 +49,7 @@ npm start
 La aplicación estará disponible en `http://localhost:3000`
 
 **Opción B: Usando PM2 (recomendado para producción)**
+
 ```bash
 # Instalar PM2 globalmente
 npm install -g pm2
@@ -83,6 +85,7 @@ server {
 ## 📊 Estructura de Datos
 
 Los datos del admin se almacenan localmente en:
+
 ```
 .data/
 ├── banners.json
@@ -94,17 +97,20 @@ Estos archivos se crean automáticamente cuando el admin hace cambios.
 ## ⚠️ Troubleshooting
 
 ### Error: Permission denied
+
 ```bash
 chmod +x /home/tu_usuario/.../node_modules/.bin/*
 ```
 
 ### Error: Port 3000 already in use
+
 ```bash
 # Cambiar puerto
 PORT=8000 npm start
 ```
 
 ### Error: Cannot find module
+
 ```bash
 rm -rf node_modules package-lock.json
 npm install --legacy-peer-deps
@@ -114,21 +120,25 @@ npm run build
 ## 🔄 Actualizaciones del Código
 
 1. Pull de cambios:
+
 ```bash
 git pull origin main
 ```
 
 2. Instalar nuevas dependencias (si hay):
+
 ```bash
 npm install
 ```
 
 3. Reconstruir:
+
 ```bash
 npm run build
 ```
 
 4. Reiniciar la aplicación:
+
 ```bash
 # Si usas npm
 npm start
@@ -157,6 +167,7 @@ NODE_ENV=production
 ## 📞 Soporte
 
 Si tienes problemas, verifica:
+
 1. Node.js version: `node --version`
 2. npm version: `npm --version`
 3. Permisos: `ls -la node_modules/.bin/`

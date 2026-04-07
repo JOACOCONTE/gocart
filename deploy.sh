@@ -1,7 +1,8 @@
 #!/bin/bash
 
 # GoCart - Deployment Script para Servidor de Hosting
-# Este script ejecuta todos los pasos necesarios para deployar
+# Este script usa la carpeta .next PRE-COMPILADA (generada localmente)
+# NO intenta compilar en el servidor para evitar problemas de permisos
 
 echo "======================================"
 echo "GoCart Deployment Script"
@@ -11,38 +12,38 @@ echo "======================================"
 echo "📦 Actualizando código..."
 git pull origin main || echo "⚠️ Git pull falló - verifica permisos"
 
-# 2. Instalar dependencias
-echo "📥 Instalando dependencias..."
-npm install --legacy-peer-deps
+# 2. Instalar SOLO dependencias de producción
+echo "📥 Instalando dependencias (production)..."
+npm install --only=production --legacy-peer-deps
 
-# 3. Arreglar permisos CRÍTICO
-echo "🔧 Fijando permisos..."
-chmod +x node_modules/.bin/* 2>/dev/null || true
-chmod 755 node_modules/.bin/ 2>/dev/null || true
-
-# 4. Crear carpeta de datos
+# 3. Crear carpeta de datos
 echo "📁 Creando carpeta de datos..."
 mkdir -p .data
 chmod 755 .data
 
-# 5. Construir aplicación
-echo "🏗️ Compilando aplicación..."
-npm run build
-
-if [ $? -eq 0 ]; then
+# 4. Verificar que .next existe (carpeta pre-compilada)
+if [ ! -d ".next" ]; then
     echo ""
-    echo "✅ DEPLOYMENT EXITOSO"
-    echo "======================================"
-    echo "La aplicación está lista para ejecutar:"
+    echo "❌ ERROR: Carpeta .next no encontrada"
+    echo "El código debe haber sido compilado localmente antes del deploy"
     echo ""
-    echo "  npm start"
+    echo "Para compilar localmente antes de hacer push:"
+    echo "  npm run build"
+    echo "  git add .next && git commit -m 'build: pre-compile for production'"
+    echo "  git push origin main"
     echo ""
-    echo "O usa PM2 para ejecutar en background:"
-    echo "  pm2 start npm --name gocart -- start"
-    echo "======================================"
-else
-    echo ""
-    echo "❌ ERROR EN LA COMPILACIÓN"
-    echo "Revisa los logs arriba para más detalles"
     exit 1
 fi
+
+echo ""
+echo "✅ DEPLOYMENT EXITOSO"
+echo "======================================"
+echo "La aplicación está lista para ejecutar:"
+echo ""
+echo "  npm start"
+echo ""
+echo "O usa PM2 para ejecutar en background:"
+echo "  pm2 start npm --name gocart -- start"
+echo "  pm2 save"
+echo "  pm2 startup"
+echo "======================================"

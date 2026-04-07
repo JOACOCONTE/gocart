@@ -52,7 +52,7 @@ pm2 save
 - `PUT /api/banner/[id]` → Actualiza en `.data/banners.json`
 - `DELETE /api/banner/[id]` → Elimina de `.data/banners.json`
 
-*Lo mismo para `/api/hero`*
+_Lo mismo para `/api/hero`_
 
 ### 📦 Build Configurado
 
@@ -65,16 +65,19 @@ pm2 save
 ## 🐛 Si Tienes Errores
 
 ### Error: "Permission denied"
+
 ```bash
 chmod +x /home/u566734493/domains/rubenbadia.com.ar/public_html/.builds/source/gocart/node_modules/.bin/*
 ```
 
 ### Error: "Port 3000 already in use"
+
 ```bash
 PORT=8080 npm start
 ```
 
 ### Error: "Cannot find module"
+
 ```bash
 rm -rf node_modules package-lock.json
 npm install --legacy-peer-deps
@@ -86,6 +89,7 @@ npm run build
 ## 📊 Monitoreo
 
 ### Ver logs
+
 ```bash
 # Si usas npm start
 # (stdout en la terminal)
@@ -95,6 +99,7 @@ pm2 log gocart
 ```
 
 ### Ver procesos corriendo
+
 ```bash
 pm2 list
 # o
@@ -102,6 +107,7 @@ ps aux | grep node
 ```
 
 ### Detener servidor
+
 ```bash
 # Si usas PM2
 pm2 stop gocart
@@ -114,6 +120,7 @@ pm2 stop gocart
 ## 🎯 Testing Post-Deployment
 
 1. **Abre el navegador:**
+
    ```
    https://tu_dominio.com/admin
    ```
@@ -148,6 +155,7 @@ pm2 stop gocart
 ## 💡 Próximos Pasos (Opcionales)
 
 Si en el futuro quieres usar PostgreSQL:
+
 1. Configura la BD
 2. Descomenta imports de Prisma en las APIs
 3. Ejecuta: `npx prisma migrate dev`
