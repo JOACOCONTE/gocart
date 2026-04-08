@@ -42,10 +42,11 @@ const AdminSidebar = ({ sidebarOpen, setSidebarOpen }) => {
                             key={index}
                             href={link.href}
                             onClick={() => setSidebarOpen(false)}
-                            className={`relative flex items-center gap-3 text-slate-500 hover:bg-slate-50 p-2.5 transition ${pathname === link.href && 'bg-slate-100 sm:text-slate-600'}`}
+                            className={`relative flex items-center gap-3 hover:bg-slate-50 p-2.5 transition ${pathname === link.href ? 'bg-slate-100 text-slate-700 sm:text-slate-600' : 'text-slate-500 sm:text-slate-500'}`}
                         >
                             <link.icon size={18} className="sm:ml-5" />
-                            <p className="max-sm:hidden">{link.name}</p>
+                            <p className={`max-sm:hidden ${pathname === link.href ? 'text-slate-700 font-medium' : 'text-slate-600'}`}>{link.name}</p>
+                            <p className={`sm:hidden font-medium ${pathname === link.href ? 'text-slate-800' : 'text-slate-700'}`}>{link.name}</p>
                             {pathname === link.href && <span className="absolute bg-green-500 right-0 top-1.5 bottom-1.5 w-1 sm:w-1.5 rounded-l"></span>}
                         </Link>
                     ))

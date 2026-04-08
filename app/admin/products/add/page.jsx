@@ -14,30 +14,7 @@ export default function AddProduct() {
 
     const handleSubmit = async (formData) => {
         try {
-            const newProduct = {
-                id: `prod_${Date.now()}`,
-                name: formData.name,
-                description: formData.description,
-                mrp: parseFloat(formData.mrp),
-                price: parseFloat(formData.price),
-                category: formData.category,
-                images: [...formData.existingImages],
-                inStock: formData.inStock,
-                storeId: "store_admin",
-                createdAt: new Date().toISOString(),
-                updatedAt: new Date().toISOString(),
-                rating: [],
-                store: {
-                    id: "store_admin",
-                    name: "Arte en Joyas",
-                    username: "arteenjoyas",
-                    logo: logoArteJoyas,
-                    email: "arteenjoyas@example.com",
-                    status: "approved"
-                }
-            }
-
-            // Convertir imágenes a base64 para localStorage
+            // Convertir imágenes a base64
             const imagePromises = formData.images.map(file => {
                 return new Promise((resolve) => {
                     const reader = new FileReader()
@@ -49,7 +26,43 @@ export default function AddProduct() {
             })
 
             const base64Images = await Promise.all(imagePromises)
-            newProduct.images = [...newProduct.images, ...base64Images]
+            const allImages = [...formData.existingImages, ...base64Images]
+
+            const productData = {
+                name: formData.name,
+                description: formData.description,
+                mrp: parseFloat(formData.mrp),
+                price: parseFloat(formData.price),
+                category: formData.category,
+                images: allImages,
+                inStock: formData.inStock,
+                isFeatured: formData.isFeatured,
+                storeId: "store_admin"
+            }
+
+            // Guardar en servidor (API)
+            const response = await fetch('/api/product', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(productData)
+            })
+
+            if (!response.ok) throw new Error('Error creating product')
+            
+            const createdProduct = await response.json()
+
+            // Actualizar Redux con el producto creado
+            const newProduct = {
+                ...createdProduct,
+                store: {
+                    id: "store_admin",
+                    name: "Arte en Joyas",
+                    username: "arteenjoyas",
+                    logo: logoArteJoyas,
+                    email: "arteenjoyas@example.com",
+                    status: "approved"
+                }
+            }
 
             const updatedProducts = [newProduct, ...products]
             dispatch(setProduct(updatedProducts))

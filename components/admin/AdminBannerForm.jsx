@@ -79,22 +79,40 @@ export default function AdminBannerForm() {
 
     const handleToggleVisibility = async () => {
         const newVisibility = !formData.isVisible
-        setFormData({ ...formData, isVisible: newVisibility })
+        const updatedFormData = { ...formData, isVisible: newVisibility }
+        setFormData(updatedFormData)
         
         try {
             if (bannerId) {
                 const response = await fetch(`/api/banner/${bannerId}`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ ...formData, isVisible: newVisibility })
+                    body: JSON.stringify(updatedFormData)
                 })
                 if (response.ok) {
-                    dispatch(toggleBannerVisibility())
+                    const updated = await response.json()
+                    setFormData(updated)
+                    dispatch(setBannerData(updated))
+                    toast.success(newVisibility ? 'Banner visible' : 'Banner ocultado')
+                }
+            } else {
+                // Si no hay ID aún, crear nuevo banner
+                const response = await fetch('/api/banner', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(updatedFormData)
+                })
+                if (response.ok) {
+                    const created = await response.json()
+                    setBannerId(created.id)
+                    setFormData(created)
+                    dispatch(setBannerData(created))
                     toast.success(newVisibility ? 'Banner visible' : 'Banner ocultado')
                 }
             }
         } catch (error) {
             console.error('Error toggling visibility:', error)
+            toast.error('Error al cambiar visibilidad')
         }
     }
 
@@ -114,18 +132,18 @@ export default function AdminBannerForm() {
                         <div>
                             <h3 className="font-medium text-gray-900 text-sm md:text-base">Estado del Banner</h3>
                             <p className="text-xs md:text-sm text-gray-600">
-                                {banner.isVisible ? '✓ Banner visible' : '✗ Banner oculto'}
+                                {formData.isVisible ? '✓ Banner visible' : '✗ Banner oculto'}
                             </p>
                         </div>
                         <button
                             onClick={handleToggleVisibility}
                             className={`flex items-center justify-center gap-2 px-3 md:px-4 py-2 rounded-lg font-medium transition text-sm md:text-base ${
-                                banner.isVisible
+                                formData.isVisible
                                     ? 'bg-blue-600 text-white hover:bg-blue-700'
                                     : 'bg-gray-300 text-gray-700 hover:bg-gray-400'
                             }`}
                         >
-                            {banner.isVisible ? (
+                            {formData.isVisible ? (
                                 <>
                                     <Eye size={18} />
                                     Ocultar

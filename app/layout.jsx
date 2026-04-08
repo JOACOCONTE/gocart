@@ -3,6 +3,7 @@ import { Suspense } from "react";
 import { Toaster } from "react-hot-toast";
 import StoreProvider from "@/app/StoreProvider";
 import WhatsAppButton from "@/components/WhatsAppButton";
+import ProductInitializer from "@/components/ProductInitializer";
 import { LoadingOverlay } from "@/components/LoadingOverlay";
 import "./globals.css";
 
@@ -25,6 +26,7 @@ export default function RootLayout({ children }) {
         <html lang="es">
             <body className={`${outfit.className} antialiased bg-[#346c6b] overflow-x-hidden`}>
                 <StoreProvider>
+                    <ProductInitializer />
                     <Suspense fallback={null}>
                         <LoadingOverlay />
                     </Suspense>

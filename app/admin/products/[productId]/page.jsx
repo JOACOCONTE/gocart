@@ -17,19 +17,19 @@ export default function EditProduct() {
 
     const handleSubmit = async (formData) => {
         try {
-            const updatedProduct = {
-                ...product,
+            const updatedProductData = {
                 name: formData.name,
                 description: formData.description,
                 mrp: parseFloat(formData.mrp),
                 price: parseFloat(formData.price),
                 category: formData.category,
                 inStock: formData.inStock,
-                updatedAt: new Date().toISOString(),
+                isFeatured: formData.isFeatured,
+                storeId: product.storeId || "store_admin"
             }
 
             // Mantener imágenes existentes
-            updatedProduct.images = [...formData.existingImages]
+            let images = [...formData.existingImages]
             
             // Convertir nuevas imágenes a base64
             if (formData.images.length > 0) {
@@ -44,24 +44,27 @@ export default function EditProduct() {
                 })
 
                 const base64Images = await Promise.all(imagePromises)
-                updatedProduct.images = [...updatedProduct.images, ...base64Images]
+                images = [...images, ...base64Images]
             }
 
-            // Mantener store si existe, sino crear uno por defecto
-            if (!updatedProduct.store) {
-                updatedProduct.store = {
-                    id: "store_admin",
-                    name: "Arte en Joyas",
-                    username: "arteenjoyas",
-                    email: "arteenjoyas@example.com",
-                    status: "approved"
-                }
-            }
+            updatedProductData.images = images
 
-            const updatedProducts = products.map(p => 
+            // Actualizar en servidor (API)
+            const response = await fetch(`/api/product/${product.id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(updatedProductData)
+            })
+
+            if (!response.ok) throw new Error('Error updating product')
+            
+            const updatedProduct = await response.json()
+
+            // Actualizar Redux
+            const productsUpdated = products.map(p => 
                 p.id === product.id ? updatedProduct : p
             )
-            dispatch(setProduct(updatedProducts))
+            dispatch(setProduct(productsUpdated))
             toast.success("Producto actualizado exitosamente")
             router.push('/admin/products')
 

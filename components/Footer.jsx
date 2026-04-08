@@ -14,29 +14,30 @@ const Footer = () => {
 
     const linkSections = [
         {
-            title: "PRODUCTS",
+            title: "CATEGORÍAS",
             links: [
-                { text: "Earphones", path: '/', icon: null },
-                { text: "Headphones", path: '/', icon: null },
-                { text: "Smartphones", path: '/', icon: null },
-                { text: "Laptops", path: '/', icon: null },
+                { text: "Anillos", path: '/shop/anillos', icon: null },
+                { text: "Collares", path: '/shop/collares', icon: null },
+                { text: "Alianzas", path: '/shop/alianzas', icon: null },
+                { text: "Oro 18K", path: '/shop/oro18k', icon: null },
+                { text: "Plata 950", path: '/shop/plata950', icon: null },
             ]
         },
         {
-            title: "WEBSITE?",
+            title: "PÁGINA EN ESPAÑOL",
             links: [
-                { text: "Home", path: '/', icon: null },
-                { text: "Privacy Policy", path: '/', icon: null },
-                { text: "Become Plus Member", path: '/pricing', icon: null },
-                { text: "Create Your Store", path: '/create-store', icon: null },
+                { text: "Inicio", path: '/', icon: null },
+                { text: "Tienda", path: '/shop/arteenjoyas', icon: null },
+                { text: "Sobre Nosotros", path: '/about', icon: null },
+                { text: "Contacto", path: '/contact', icon: null },
             ]
         },
         {
-            title: "CONTACT",
+            title: "CONTACTO",
             links: [
-                { text: "+1-212-456-7890", path: '/', icon: MailIcon },
-                { text: "contact@example.com", path: '/', icon: PhoneIcon },
-                { text: "794 Francisco, 94102", path: '/', icon: MapPinIcon }
+                { text: "+549 3525306926", path: 'https://wa.me/5493525306926', icon: PhoneIcon },
+                { text: "badiarubian88@gmail.com", path: 'mailto:badiarubian88@gmail.com', icon: MailIcon },
+                { text: "Ingeniero Olmos 183, Jesús María, Córdoba", path: '/', icon: MapPinIcon }
             ]
         }
     ];

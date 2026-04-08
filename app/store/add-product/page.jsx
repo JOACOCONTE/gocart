@@ -3,6 +3,9 @@ import { assets } from "@/assets/assets"
 import Image from "next/image"
 import { useState } from "react"
 import { toast } from "react-hot-toast"
+import { useSelector, useDispatch } from "react-redux"
+import { setProduct } from "@/lib/features/product/productSlice"
+import { useRouter } from "next/navigation"
 
 export default function StoreAddProduct() {
 
@@ -17,7 +20,10 @@ export default function StoreAddProduct() {
         category: "",
     })
     const [loading, setLoading] = useState(false)
-
+    
+    const dispatch = useDispatch()
+    const router = useRouter()
+    const products = useSelector(state => state.product.list)
 
     const onChangeHandler = (e) => {
         setProductInfo({ ...productInfo, [e.target.name]: e.target.value })
@@ -25,13 +31,99 @@ export default function StoreAddProduct() {
 
     const onSubmitHandler = async (e) => {
         e.preventDefault()
-        // Logic to add a product
+        setLoading(true)
         
+        try {
+            // Validaciones
+            if (!productInfo.name.trim()) {
+                toast.error("El nombre del producto es requerido")
+                setLoading(false)
+                return
+            }
+            if (!productInfo.category) {
+                toast.error("La categoría es requerida")
+                setLoading(false)
+                return
+            }
+            if (productInfo.price <= 0 || productInfo.mrp <= 0) {
+                toast.error("Los precios deben ser mayores a 0")
+                setLoading(false)
+                return
+            }
+
+            // Obtener imágenes que sean archivos nuevos
+            const imageFiles = Object.values(images).filter(img => img instanceof File)
+
+            if (imageFiles.length === 0) {
+                toast.error("Debes agregar al menos una imagen")
+                setLoading(false)
+                return
+            }
+
+            // Convertir imágenes a base64
+            const imagePromises = imageFiles.map(file => {
+                return new Promise((resolve) => {
+                    const reader = new FileReader()
+                    reader.onload = (event) => {
+                        resolve(event.target.result)
+                    }
+                    reader.readAsDataURL(file)
+                })
+            })
+
+            const base64Images = await Promise.all(imagePromises)
+
+            const productData = {
+                name: productInfo.name,
+                description: productInfo.description,
+                mrp: parseFloat(productInfo.mrp),
+                price: parseFloat(productInfo.price),
+                category: productInfo.category,
+                images: base64Images,
+                inStock: true,
+                isFeatured: false,
+                storeId: "store_public"
+            }
+
+            // Guardar en servidor (API)
+            const response = await fetch('/api/product', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(productData)
+            })
+
+            if (!response.ok) throw new Error('Error creating product')
+            
+            const createdProduct = await response.json()
+
+            // Actualizar Redux
+            const updatedProducts = [createdProduct, ...products]
+            dispatch(setProduct(updatedProducts))
+
+            toast.success("Producto agregado exitosamente")
+            
+            // Limpiar formulario
+            setProductInfo({
+                name: "",
+                description: "",
+                mrp: 0,
+                price: 0,
+                category: "",
+            })
+            setImages({ 1: null, 2: null, 3: null, 4: null })
+            
+            router.push('/store/manage-product')
+
+        } catch (error) {
+            toast.error("Error al agregar el producto")
+            console.error(error)
+        } finally {
+            setLoading(false)
+        }
     }
 
-
     return (
-        <form onSubmit={e => toast.promise(onSubmitHandler(e), { loading: "Adding Product..." })} className="text-slate-500 mb-28">
+        <form onSubmit={onSubmitHandler} className="text-slate-500 mb-28">
             <h1 className="text-2xl">Add New <span className="text-slate-800 font-medium">Products</span></h1>
             <p className="mt-7">Product Images</p>
 
@@ -74,7 +166,9 @@ export default function StoreAddProduct() {
 
             <br />
 
-            <button disabled={loading} className="bg-slate-800 text-white px-6 mt-7 py-2 hover:bg-slate-900 rounded transition">Add Product</button>
+            <button disabled={loading} className="bg-slate-800 text-white px-6 mt-7 py-2 hover:bg-slate-900 rounded transition disabled:opacity-50">
+                {loading ? "Adding Product..." : "Add Product"}
+            </button>
         </form>
     )
 }

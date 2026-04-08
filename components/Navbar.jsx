@@ -121,10 +121,10 @@ const Navbar = () => {
 
                     {/* Desktop Menu */}
                     <div className={`hidden sm:flex items-center ${isScrolled ? 'gap-3 lg:gap-6' : 'gap-4 lg:gap-8'} text-[#e1edfa] transition-all duration-500`}>
-                        <Link href="/" className={`${isScrolled ? 'text-sm' : ''} hover:opacity-80 transition-all duration-500`}>Home</Link>
-                        <Link href="/shop" className={`${isScrolled ? 'text-sm' : ''} hover:opacity-80 transition-all duration-500`}>Shop</Link>
-                        <Link href="/about" className={`${isScrolled ? 'text-sm' : ''} hover:opacity-80 transition-all duration-500`}>About</Link>
-                        <Link href="/contact" className={`${isScrolled ? 'text-sm' : ''} hover:opacity-80 transition-all duration-500`}>Contact</Link>
+                        <Link href="/" className={`${isScrolled ? 'text-sm' : ''} hover:opacity-80 transition-all duration-500`}>Inicio</Link>
+                        <Link href="/shop" className={`${isScrolled ? 'text-sm' : ''} hover:opacity-80 transition-all duration-500`}>Tienda</Link>
+                        <Link href="/about" className={`${isScrolled ? 'text-sm' : ''} hover:opacity-80 transition-all duration-500`}>Sobre Nosotros</Link>
+                        <Link href="/contact" className={`${isScrolled ? 'text-sm' : ''} hover:opacity-80 transition-all duration-500`}>Contacto</Link>
 
                         {/* Search Bar */}
                         {!isScrolled ? (

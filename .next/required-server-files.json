@@ -54,7 +54,8 @@
       "disableStaticImages": false,
       "minimumCacheTTL": 31536000,
       "formats": [
-        "image/webp"
+        "image/webp",
+        "image/avif"
       ],
       "maximumResponseBody": 50000000,
       "dangerouslyAllowSVG": false,
@@ -93,10 +94,10 @@
       "PROJECT_ROOT": "C:\\Users\\Usuario\\Documents\\GitHub\\gocart"
     },
     "publicRuntimeConfig": {
-      "apiUrl": "http://localhost:3000"
+      "apiUrl": ""
     },
     "reactProductionProfiling": false,
-    "reactStrictMode": true,
+    "reactStrictMode": false,
     "reactMaxHeadersLength": 6000,
     "httpAgentOptions": {
       "keepAlive": true
@@ -105,7 +106,6 @@
     "compiler": {},
     "expireTime": 31536000,
     "staticPageGenerationTimeout": 60,
-    "output": "standalone",
     "modularizeImports": {
       "@mui/icons-material": {
         "transform": "@mui/icons-material/{{member}}"
@@ -304,11 +304,7 @@
     "htmlLimitedBots": "[\\w-]+-Google|Google-[\\w-]+|Chrome-Lighthouse|Slurp|DuckDuckBot|baiduspider|yandex|sogou|bitlybot|tumblr|vkShare|quora link preview|redditbot|ia_archiver|Bingbot|BingPreview|applebot|facebookexternalhit|facebookcatalog|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|SkypeUriPreview|Yeti|googleweblight",
     "bundlePagesRouterDependencies": false,
     "configFileName": "next.config.mjs",
-    "webpackDevMiddleware": {
-      "watchOptions": {
-        "ignored": "/node_modules/"
-      }
-    },
+    "swcMinify": true,
     "turbopack": {
       "root": "C:\\Users\\Usuario\\Documents\\GitHub\\gocart"
     }

@@ -36,16 +36,25 @@ export default function AdminProducts() {
         return () => window.removeEventListener('scroll', handleScroll)
     }, [])
 
-    const handleDelete = (productId) => {
+    const handleDelete = async (productId) => {
         setLoading(true)
         try {
+            // Eliminar del servidor (API)
+            const response = await fetch(`/api/product/${productId}`, {
+                method: 'DELETE',
+            })
+
+            if (!response.ok) throw new Error('Error deleting product')
+
             const updatedProducts = products.filter(p => p.id !== productId)
             dispatch(setProduct(updatedProducts))
             toast.success("Producto eliminado exitosamente")
         } catch (error) {
             toast.error("Error al eliminar el producto")
+            console.error(error)
+        } finally {
+            setLoading(false)
         }
-        setLoading(false)
     }
 
     return (
