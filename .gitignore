@@ -14,7 +14,7 @@
 /coverage
 
 # next.js
-# /.next/ -- COMENTADO PARA PERMITIR DEPLOY PRE-COMPILADO
+/.next/
 /out/
 
 # production
