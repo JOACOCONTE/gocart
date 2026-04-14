@@ -3,6 +3,7 @@
 ## El Problema en Resumen
 
 ### Errores que Ves:
+
 ```
 ❌ Failed to load resource: 404
 ❌ Refused to execute script... MIME type ('text/plain')
@@ -11,6 +12,7 @@
 ```
 
 ### Causa Raíz:
+
 **El servidor web NO ESTÁ SIRVIENDO LOS ARCHIVOS CORRECTAMENTE**
 
 - `rubenbadia.com.ar` está sirviendo archivos `.js` como `text/plain` en lugar de `application/javascript`
@@ -22,16 +24,19 @@
 ## ¿QUÉ ESTAMOS HACIENDO MAL?
 
 ### Posibilidad 1: Nginx está configurado incorrectamente ⚠️
+
 - Nginx NO tiene configurados los tipos MIME correctos
 - O Nginx está comprimiendo los archivos de forma extraña
 - O hay un proxy que está alterando los headers
 
 ### Posibilidad 2: Estamos usando un proxy innecesario ⚠️
+
 - El código local funciona bien
 - Pero cuando se pone detrás de nginx, todo se rompe
 - Solución: Servir Next.js DIRECTAMENTE sin proxy
 
 ### Posibilidad 3: Permisos de archivos ⚠️
+
 - La carpeta `.next/static/` no tiene permisos de lectura
 - El servidor no puede acceder a los archivos
 
@@ -65,11 +70,13 @@ npm start
 ```
 
 **Luego:**
+
 - Ve a rubenbadia.com.ar
 - Limpia caché del navegador (Ctrl+Shift+Del)
 - Recarga (Ctrl+Shift+R)
 
 **Resultado esperado:**
+
 - ✅ Sin errores MIME type
 - ✅ Todo funciona perfectamente
 
@@ -95,12 +102,14 @@ Ahí hay configuración completa de nginx que funciona con Next.js.
 6. Verifica la columna "Type"
 
 **Debería decir:**
+
 ```
 ✅ application/javascript
 ✅ text/css
 ```
 
 **NO debería decir:**
+
 ```
 ❌ text/plain
 ❌ document
@@ -126,7 +135,7 @@ Ahí hay configuración completa de nginx que funciona con Next.js.
    - Opción A (Sin nginx) - MÁS FÁCIL
    - Opción B (Con nginx) - MÁS CONFIGURABLE
 
-2. **Ejecuta los comandos²
+2. \*\*Ejecuta los comandos²
 
 3. **Verifica que funciona**
 
@@ -137,15 +146,19 @@ Ahí hay configuración completa de nginx que funciona con Next.js.
 ## ❓ Preguntas Frecuentes
 
 ### P: ¿Por qué funciona en incógnito?
+
 R: Porque el caché del navegador tenía archivos viejos. Incógnito = sin caché.
 
 ### P: ¿Por qué funciona en desarrollo?
+
 R: Porque `npm run dev` sirve los archivos directamente sin proxy. En producción, si hay nginx mal configurado, lo rompe.
 
 ### P: ¿Puedo seguir usando nginx?
+
 R: Sí, pero necesita la configuración correcta (ver `MIME_TYPE_FIX.md`).
 
 ### P: ¿Perderé datos si reconstruyo?
+
 R: NO. Los datos están en `.data/` (banners, heroes, productos). Estos NO se borran.
 
 ---
@@ -159,7 +172,7 @@ CAUSA:    Nginx mal configurado O no debería estar usando nginx
            ↓
 SOLUCIÓN: Modo 1: Sin nginx (npm start directo) ✅ RECOMENDADO
           Modo 2: Nginx bien configurado (ver MIME_TYPE_FIX.md)
-           ↓  
+           ↓
 RESULTADO: Todo funciona, sin errores ✨
 ```
 

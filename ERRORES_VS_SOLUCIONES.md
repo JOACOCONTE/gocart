@@ -3,6 +3,7 @@
 ## Resumen Visual de los Tres Errores Principales
 
 ### Error 1: MIME Type Incorrecto para JavaScript
+
 ```
 ❌ AHORA (MAL):
    GET /_next/static/chunks/main.js
@@ -16,6 +17,7 @@
 ```
 
 ### Error 2: MIME Type Incorrecto para Estilos CSS
+
 ```
 ❌ AHORA (MAL):
    GET /_next/static/css/main.css
@@ -29,6 +31,7 @@
 ```
 
 ### Error 3: 404 No Encontrado
+
 ```
 ❌ AHORA (MAL):
    GET /_next/static/chunks/abc123.js
@@ -76,7 +79,7 @@
                      │ GET /index.html
                      ↓
         ❌ Sin Nginx (Eliminado el proxy)
-                     │ 
+                     │
                      ↓
 ┌─────────────────────────────────────────────────────┐
 │              Next.js (Puerto 3000)                  │
@@ -125,22 +128,23 @@
 
 ## Comparación de Las 2 Opciones
 
-| Aspecto | Opción A: Sin Nginx | Opción B: Con Nginx |
-|---------|-------------------|-----------------|
-| **Complejidad** | ⭐ Muy Fácil | ⭐⭐⭐ Intermedia |
-| **Velocidad de Setup** | 5 minutos | 20 minutos |
-| **Rendimiento** | ⚡ Muy Bueno | ⚡⚡ Excelente |
-| **Requisito** | Solo Next.js | Nginx + Next.js |
-| **Mantenimiento** | ✅ Mínimo | ⚠️ Requiere configs |
-| **Escalabilidad** | ✅ 1-2 instancias | ⭐⭐⭐ Múltiples instancias |
-| **Caché Estática** | ⭐ Limitado | ⭐⭐⭐ Excelente |
-| **LE RECOMENDAMOS** | **SÍ** ✅ | Si necesitas más |
+| Aspecto                | Opción A: Sin Nginx | Opción B: Con Nginx         |
+| ---------------------- | ------------------- | --------------------------- |
+| **Complejidad**        | ⭐ Muy Fácil        | ⭐⭐⭐ Intermedia           |
+| **Velocidad de Setup** | 5 minutos           | 20 minutos                  |
+| **Rendimiento**        | ⚡ Muy Bueno        | ⚡⚡ Excelente              |
+| **Requisito**          | Solo Next.js        | Nginx + Next.js             |
+| **Mantenimiento**      | ✅ Mínimo           | ⚠️ Requiere configs         |
+| **Escalabilidad**      | ✅ 1-2 instancias   | ⭐⭐⭐ Múltiples instancias |
+| **Caché Estática**     | ⭐ Limitado         | ⭐⭐⭐ Excelente            |
+| **LE RECOMENDAMOS**    | **SÍ** ✅           | Si necesitas más            |
 
 ---
 
 ## Comandos Por Opción
 
 ### Opción A: Sin Nginx
+
 ```bash
 # 1. SSH
 ssh usuario@rubenbadia.com.ar
@@ -159,6 +163,7 @@ npm start
 ```
 
 ### Opción B: Con Nginx
+
 ```bash
 # Todo lo del anterior PLUS:
 
@@ -194,12 +199,14 @@ sudo systemctl restart nginx
 ## Checklist de Diagnóstico
 
 ### Antes (Estado Actual - ROTO)
+
 - [ ] ❌ DevTools Network: archivos JS muestran tipo "text/plain"
 - [ ] ❌ DevTools Console: mensajes de MIME type error
 - [ ] ❌ La página se ve sin CSS (colores feos)
 - [ ] ❌ JavaScript no funciona correctamente
 
 ### Después (Estado Objetivo - CORRECTO)
+
 - [ ] ✅ DevTools Network: archivos JS muestran tipo "application/javascript"
 - [ ] ✅ DevTools Console: SIN mensajes de error MIME type
 - [ ] ✅ La página se ve bonita con CSS correcto
